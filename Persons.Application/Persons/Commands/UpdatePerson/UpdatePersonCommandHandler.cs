@@ -22,7 +22,7 @@ namespace Persons.Application.Persons.Commands.UpdatePerson
             person.Update(request.Name, request.Surname, request.Gender, request.PersonalNumber, request.BirthDate, request.CityId);
             _unitOfWork.PersonRepository.Update(person);
 
-            if (request.PhoneNumbers.Count != 0)
+            if (request.PhoneNumbers?.Count != 0)
             {
                 foreach (var item in request.PhoneNumbers)
                 {

@@ -12,6 +12,6 @@ namespace Persons.Application.Persons.Commands.UpdatePerson
         public string PersonalNumber { get; set; }
         public DateTime BirthDate { get; set; }
         public int CityId { get; set; }
-        public List<PhoneNumberModel> PhoneNumbers { get; set; }
+        public List<PhoneNumberModel>? PhoneNumbers { get; set; }
     }
 }

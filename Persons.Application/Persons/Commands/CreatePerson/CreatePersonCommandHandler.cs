@@ -18,7 +18,6 @@ namespace Persons.Application.Persons.Commands.CreatePerson
         {
             var person = Person.Create(request.Name, request.Surname, request.Gender, request.PersonalNumber, request.BirthDate, request.CityId);
             await _unitOfWork.PersonRepository.AddAsync(person);
-            await _unitOfWork.SaveChangesAsync();
             return person.Id;
         }
     }

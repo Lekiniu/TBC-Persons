@@ -1,10 +1,12 @@
 ﻿using MediatR;
+using Persons.Application.Common.Mappings;
 using Persons.Application.Common.Models;
+using Persons.Application.Persons.Commands.AddRelatedPerson;
 using Persons.Domain.Enums;
 
 namespace Persons.Application.Persons.Commands.UpdatePerson
 {
-    public class UpdatePersonCommand :  IRequest<int>
+    public class UpdatePersonCommand : MapFrom<UpdatePersonModel>, IRequest<int>
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -13,6 +15,6 @@ namespace Persons.Application.Persons.Commands.UpdatePerson
         public string PersonalNumber { get; set; }
         public DateTime BirthDate { get; set; }
         public int CityId { get; set; }
-        public List<PhoneNumberModel> PhoneNumbers { get; set; }
+        public List<PhoneNumberModel>? PhoneNumbers { get; set; }
     }
 }

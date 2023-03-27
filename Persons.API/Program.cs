@@ -1,8 +1,13 @@
+using FluentValidation.AspNetCore;
+using FluentValidation;
 using Newtonsoft.Json;
 using Person.API.Middleware;
 using Persons.Application;
 using Persons.Infrastructure;
 using Serilog;
+using System.Reflection;
+using Person.API;
+using Microsoft.Extensions.Options;
 
 //Environment.CurrentDirectory = AppContext.BaseDirectory;
 var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
@@ -33,14 +38,21 @@ builder.Logging.AddSerilog();
 // Add services to the container.
 builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.AddControllers().AddNewtonsoftJson(options => {
-    options.SerializerSettings.ReferenceLoopHandling =ReferenceLoopHandling.Ignore; 
-    options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-});
+builder.Services.AddControllers( /*x => x.Filters.Add(new ModelStateFilter())*/)
+    .AddNewtonsoftJson(options =>
+    {
+        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+        options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+    });
+
+//builder.Services.AddFluentValidationAutoValidation();
+//builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+//builder.Services.AddLocalization(options => options.ResourcesPath = "CommonResource");
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -50,6 +62,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseLoggingMiddleware();
+
+app.UseMiddleware<LocalizationMiddleware>();
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

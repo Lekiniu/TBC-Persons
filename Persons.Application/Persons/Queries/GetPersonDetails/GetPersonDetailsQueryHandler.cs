@@ -21,7 +21,7 @@ namespace Persons.Application.Persons.Queries.GetPersonDetails
 
         public async Task<PersonDetailsModel> Handle(GetPersonDetailsQuery request, CancellationToken cancellationToken)
         {
-            throw new Exception("error 500");
+           // throw new Exception("error 500");
             var person =  await _unitOfWork.PersonRepository.GetPersonDetails(request.Id);
             if(person is null) throw new Exception(CommonResource.PersonNotFoundError);
             var result = _mapper.Map<PersonDetailsModel>(person);

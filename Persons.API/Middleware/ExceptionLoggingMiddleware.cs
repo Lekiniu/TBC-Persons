@@ -1,15 +1,17 @@
 ﻿using Newtonsoft.Json;
 using Serilog;
+using System;
+using System.Net;
 using System.Text;
 
 namespace Person.API.Middleware
 {
-    public class LoggingMiddleware
+    public class ExceptionLoggingMiddleware
     {
         private readonly RequestDelegate next;
         private string requestBody;
 
-        public LoggingMiddleware(RequestDelegate next)
+        public ExceptionLoggingMiddleware(RequestDelegate next)
         {
             this.next = next;
         }
@@ -25,6 +27,7 @@ namespace Person.API.Middleware
             catch (Exception ex)
             {
                 LogException(httpContext, ex);
+                await HandleExceptionAsync(httpContext, ex);
             }
         }
 
@@ -61,13 +64,25 @@ namespace Person.API.Middleware
 
             Log.Error("Exception in Application. " + JsonConvert.SerializeObject(exceptionModel));
         }
+
+        private Task HandleExceptionAsync(HttpContext context, Exception exception)
+        {
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
+            return context.Response.WriteAsync(new ErrorDetails()
+            {
+                Code = context.Response.StatusCode,
+                Message = "Internal Server Error from the custom middleware."
+            }.ToString());
+        }
     }
 
     public static class MiddlewareExtensions
     {
         public static IApplicationBuilder UseLoggingMiddleware(this IApplicationBuilder builder)
         {
-            return builder.UseMiddleware<LoggingMiddleware>();
+            return builder.UseMiddleware<ExceptionLoggingMiddleware>();
         }
     }
 
@@ -81,4 +96,16 @@ namespace Person.API.Middleware
         public string InnerExceptionMessage { get; set; }
         public string InnerExceptionStackTrace { get; set; }
     }
+
+    public class ErrorDetails
+    {
+            public int Code { get; set; }
+
+            public string Message { get; set; }
+
+            public override string ToString()
+            {
+                return JsonConvert.SerializeObject(this);
+            }
+        }
 }

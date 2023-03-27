@@ -10,11 +10,11 @@ namespace Persons.Application.Interfaces
 
         public interface IGenericRepository<TEntity> where TEntity : class
         {
-            //Task<T> GetById(int id);
-            //Task<IEnumerable<T>> GetAll();
-            //Task Add(T entity);
-            //void Delete(T entity);
-            //void Update(T entity);
+       //  Task<TEntity> GetById(int id);
+        //Task<IEnumerable<T>> GetAll();
+        //Task Add(T entity);
+        //void Delete(T entity);
+        //void Update(T entity);
 
         IQueryable<TEntity> GetAll(bool asNoTracking = true);
         IQueryable<TEntity> GetAllBySpec(Expression<Func<TEntity, bool>> predicate, bool asNoTracking = true);

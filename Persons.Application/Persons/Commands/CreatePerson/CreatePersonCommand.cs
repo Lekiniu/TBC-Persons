@@ -1,10 +1,11 @@
 ﻿using MediatR;
+using Persons.Application.Common.Mappings;
 using Persons.Application.Common.Models;
 using Persons.Domain.Enums;
 
 namespace Persons.Application.Persons.Commands.CreatePerson
 {
-    public class CreatePersonCommand :  IRequest<int>
+    public class CreatePersonCommand : MapFrom<CreatePersonModel>, IRequest<int>
     {
         public string Name { get; set; }
         public string Surname { get; set; }

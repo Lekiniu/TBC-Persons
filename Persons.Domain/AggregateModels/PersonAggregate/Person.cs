@@ -30,14 +30,12 @@ namespace Persons.Domain.AggregateModels.PersonAggregate
         public GenderTypes Gender { get; set; }
         public string PersonalNumber { get; set; }
         public DateTime BirthDate { get; set; }
-        public string FileUrl { get; set; }
+        public string? FileUrl { get; set; }
         public int CityId { get; set; }
         public virtual City City { get; set; }
         public virtual IReadOnlyCollection<PhoneNumber> PhoneNumbers => _phoneNumbers;
         public virtual IReadOnlyCollection<PersonsRelation> MainPersons => _mainPersons;
         public virtual IReadOnlyCollection<PersonsRelation> RelativePersons => _relativePersons;
-
-
 
         public static Person Create(string name, string surname, GenderTypes gender, string personalNumber, DateTime birthDate, int cityId)
                              => new Person(name, surname, gender, personalNumber,birthDate, cityId);

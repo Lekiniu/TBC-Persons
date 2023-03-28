@@ -18,8 +18,8 @@ namespace Persons.Application.Persons.Queries.GetPersonDetails
         public GenderTypes Gender { get; set; }
         public string PersonalNumber { get; set; }
         public DateTime BirthDate { get; set; }
-        public string FileUrl { get; set; }
         public CityModel City { get; set; }
+        public byte[] File { get; set; }
         public List<PhoneNumberModel> PhoneNumbers { get; set; }
         public List<RelatedPersonDetails> RelatedPersons { get; set; }
 

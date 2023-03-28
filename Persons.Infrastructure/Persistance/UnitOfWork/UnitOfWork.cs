@@ -9,18 +9,14 @@ namespace Persons.Infrastructure.Persistance.UnitOfWork
         private readonly PersonDbContext _dbContext;
        
 
-        public UnitOfWork(PersonDbContext dbContext, IPersonRepository personRepository, IPhoneNumberRepository phoneNumberRepository, IPersonsRelationRepository personsRelationRepositor,
+        public UnitOfWork(PersonDbContext dbContext, IPersonRepository personRepository,
             ICityRepository cityRepository)
         {
             _dbContext = dbContext;
             PersonRepository = personRepository;
-            PhoneNumberRepository = phoneNumberRepository;
-            PersonsRelationRepository = personsRelationRepositor;
             CityRepository = cityRepository;
         }
         public  IPersonRepository PersonRepository { get; }
-        public IPhoneNumberRepository PhoneNumberRepository { get; }
-        public IPersonsRelationRepository PersonsRelationRepository { get; }
         public ICityRepository CityRepository { get; }
 
         public int SaveChanges()

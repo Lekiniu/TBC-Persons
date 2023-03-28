@@ -8,6 +8,9 @@ using Serilog;
 using System.Reflection;
 using Person.API;
 using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
+using Persons.API.Middleware.Filters;
+using Microsoft.AspNetCore.Mvc;
 
 //Environment.CurrentDirectory = AppContext.BaseDirectory;
 var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
@@ -38,20 +41,30 @@ builder.Logging.AddSerilog();
 // Add services to the container.
 builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.AddControllers( /*x => x.Filters.Add(new ModelStateFilter())*/)
-    .AddNewtonsoftJson(options =>
+builder.Services.AddControllers(
+    //options =>   options.Filters.Add<ValidationFilter>()
+).AddNewtonsoftJson(options =>
     {
         options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
         options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
     });
-
 //builder.Services.AddFluentValidationAutoValidation();
 //builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
 
+//builder.Services.Configure<ApiBehaviorOptions>(options =>
+//{
+//    options.SuppressModelStateInvalidFilter = true;
+//});
+
+
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "TBC-Persons.API", Version = "v1" });
+});
 //builder.Services.AddLocalization(options => options.ResourcesPath = "CommonResource");
 var app = builder.Build();
 
@@ -59,7 +72,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TBC-Persons.API v1"));
 }
 app.UseLoggingMiddleware();
 

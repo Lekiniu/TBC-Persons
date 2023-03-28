@@ -27,8 +27,6 @@ namespace Persons.Infrastructure.Persistance.Configurations
                     .HasForeignKey(x => x.PersonId)
                     .OnDelete(DeleteBehavior.ClientCascade); 
 
-           
-
         }
     }
 }

@@ -51,7 +51,10 @@ namespace Persons.Infrastructure.Repositories
             else
                 return _context.Set<TEntity>().AsQueryable();
         }
-
+        public virtual async Task<List<TEntity>> GetAllAsync(CancellationToken cancellationToken = default)
+        {
+            return await _context.Set<TEntity>().ToListAsync(cancellationToken);
+        }
         public virtual IQueryable<TEntity> GetAllBySpec(Expression<Func<TEntity, bool>> predicate, bool asNoTracking = true)
         {
             if (asNoTracking)
@@ -83,6 +86,11 @@ namespace Persons.Infrastructure.Repositories
         public virtual async Task<int> CountAsync(CancellationToken cancellationToken = default)
         {
             return await _context.Set<TEntity>().CountAsync(cancellationToken);
+        }
+
+        public async Task<int> CountAsync(IQueryable<TEntity> data, CancellationToken cancellationToken = default)
+        {
+            return await data.AsNoTracking().CountAsync(cancellationToken);
         }
 
         public virtual async Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
@@ -174,6 +182,11 @@ namespace Persons.Infrastructure.Repositories
             _context.Set<TEntity>().Update(entity);
 
             return await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public virtual async Task<List<TEntity>> ToListAsync(IQueryable<TEntity> data, CancellationToken cancellationToken = default)
+        {
+            return await data.AsNoTracking().ToListAsync(cancellationToken);
         }
     }
 }

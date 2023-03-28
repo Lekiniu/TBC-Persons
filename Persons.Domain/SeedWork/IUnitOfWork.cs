@@ -7,7 +7,5 @@ namespace Persons.Application.Interfaces
         int SaveChanges();
         Task<int> SaveChangesAsync();
         public IPersonRepository PersonRepository { get; }
-        public IPhoneNumberRepository PhoneNumberRepository { get; }
-        public IPersonsRelationRepository PersonsRelationRepository { get; }
     }
 }

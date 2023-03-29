@@ -1,7 +1,4 @@
 ﻿using Persons.Domain.Enums;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Reflection;
-using System.Xml.Linq;
 
 namespace Persons.Domain.AggregateModels.PersonAggregate
 {

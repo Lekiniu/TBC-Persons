@@ -1,8 +1,13 @@
-﻿using Newtonsoft.Json;
+﻿using FluentValidation;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
+//using Persons.Application.Common.Exceptions;
+using Persons.Application.Common.Resources;
 using Serilog;
 using System;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Person.API.Middleware
 {
@@ -70,10 +75,18 @@ namespace Person.API.Middleware
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-            return context.Response.WriteAsync(new ErrorDetails()
+            var validationError = new StringBuilder();
+            if(exception is ValidationException && !string.IsNullOrEmpty(exception.Message))
+            {
+                validationError.Append("Message: ");
+                validationError.Append(exception.Message);
+                validationError.Append("\n");            
+            }
+            var errorMessage = !string.IsNullOrEmpty(validationError.ToString()) ? validationError.ToString() : CommonResource.MiddlewareError;
+            return  context.Response.WriteAsync(new ErrorDetails()
             {
                 Code = context.Response.StatusCode,
-                Message = "Internal Server Error from the custom middleware."
+                Message = errorMessage
             }.ToString());
         }
     }
@@ -105,7 +118,7 @@ namespace Person.API.Middleware
 
             public override string ToString()
             {
-                return JsonConvert.SerializeObject(this);
+                return JsonConvert.SerializeObject(this, new JsonSerializerSettings { Formatting = Formatting.None });
             }
         }
 }

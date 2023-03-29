@@ -15,12 +15,12 @@ namespace Persons.Infrastructure.Persistance.Configurations
             builder.HasOne(x => x.MainPerson)
                   .WithMany(x => x.RelativePersons)
                   .HasForeignKey(x => x.MainPersonId)
-                  .OnDelete(DeleteBehavior.ClientCascade);
+                  .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(x => x.RelatedPerson)
                      .WithMany(x => x.MainPersons)
                      .HasForeignKey(x => x.RelatedPersonId)
-                     .OnDelete(DeleteBehavior.ClientCascade);
+                     .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -6,6 +6,5 @@ namespace Persons.Application.Persons.Commands.AddRelatedPerson
     {
         public int PersonId { get; set; }
         public int RelatedPersonId { get; set; }
-        public RelationTypes RelationType { get; set; }
     }
 }

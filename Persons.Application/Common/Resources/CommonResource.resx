@@ -118,12 +118,18 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CreatePersonError" xml:space="preserve">
-    <value>შეცდომა პიროვნების დამატების დროს</value>
+    <value>Error creating Person</value>
+  </data>
+  <data name="LanguageError" xml:space="preserve">
+    <value>Invalid Language Input</value>
+  </data>
+  <data name="MiddlewareError" xml:space="preserve">
+    <value>Internal Server Error from the custom middleware</value>
   </data>
   <data name="PersonDateError" xml:space="preserve">
-    <value>პიროვნება არაა 18 წელს მიღწეული</value>
+    <value>Person under 18</value>
   </data>
   <data name="PersonNotFoundError" xml:space="preserve">
-    <value>პიროვნება არ მოიძებნა</value>
+    <value>Person Not Found</value>
   </data>
 </root>

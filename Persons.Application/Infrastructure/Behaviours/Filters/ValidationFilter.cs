@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Persons.API.Middleware.Filters
+namespace Persons.Application.Infrastructure.Behaviours
 {
     public class ValidationFilter : IAsyncActionFilter
     {

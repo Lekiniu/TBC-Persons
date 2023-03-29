@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Persons.Application.Common.Resources;
 using System.Text.RegularExpressions;
 
 namespace Persons.Application.Persons.Commands.CreatePerson
@@ -13,7 +14,7 @@ namespace Persons.Application.Persons.Commands.CreatePerson
                 .Must(x =>
                 (Regex.IsMatch(x, "^[a-zA-Z]*$") || Regex.IsMatch(x, "^[ა-ჰ]*$")) && 
                 !string.IsNullOrEmpty(x) && 
-                !string.IsNullOrWhiteSpace(x));
+                !string.IsNullOrWhiteSpace(x)).WithMessage(CommonResource.LanguageError);
 
 
             RuleFor(x => x.Surname)
@@ -22,7 +23,7 @@ namespace Persons.Application.Persons.Commands.CreatePerson
               .Must(x =>
               (Regex.IsMatch(x, "^[a-zA-Z]*$") || Regex.IsMatch(x, "^[ა-ჰ]*$")) &&
               !string.IsNullOrEmpty(x) &&
-              !string.IsNullOrWhiteSpace(x));
+              !string.IsNullOrWhiteSpace(x)).WithMessage(CommonResource.LanguageError);
 
 
             RuleFor(x => x.PersonalNumber)

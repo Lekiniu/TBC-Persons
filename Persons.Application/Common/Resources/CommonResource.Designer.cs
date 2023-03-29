@@ -61,7 +61,7 @@ namespace Persons.Application.Common.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to შეცდომა პიროვნების დამატების დროს.
+        ///   Looks up a localized string similar to Error creating Person.
         /// </summary>
         public static string CreatePersonError {
             get {
@@ -70,7 +70,25 @@ namespace Persons.Application.Common.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to პიროვნება არაა 18 წელს მიღწეული.
+        ///   Looks up a localized string similar to Invalid Language Input.
+        /// </summary>
+        public static string LanguageError {
+            get {
+                return ResourceManager.GetString("LanguageError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Internal Server Error from the custom middleware.
+        /// </summary>
+        public static string MiddlewareError {
+            get {
+                return ResourceManager.GetString("MiddlewareError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Person under 18.
         /// </summary>
         public static string PersonDateError {
             get {
@@ -79,7 +97,7 @@ namespace Persons.Application.Common.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to პიროვნება არ მოიძებნა.
+        ///   Looks up a localized string similar to Person Not Found.
         /// </summary>
         public static string PersonNotFoundError {
             get {

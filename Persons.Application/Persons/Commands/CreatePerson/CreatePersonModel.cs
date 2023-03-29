@@ -8,8 +8,7 @@ namespace Persons.Application.Persons.Commands.CreatePerson
         public string Name { get; set; }
         public string Surname { get; set; }
         public GenderTypes Gender { get; set; }
-
-        [StringLength(13, ErrorMessage = "not correct Personal Number length")]
+        [StringLength(15)]
         public string PersonalNumber { get; set; }
         public DateTime BirthDate { get; set; }
         public int CityId { get; set; }

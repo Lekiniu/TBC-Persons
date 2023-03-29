@@ -2,7 +2,7 @@
 
 namespace Persons.Application.Persons.Commands.AddRelatedPerson
 {
-    public class DeleteRelatedPersonCommandValidator : AbstractValidator<AddRelatedPersonCommand>
+    public class DeleteRelatedPersonCommandValidator : AbstractValidator<DeleteRelatedPersonModel>
     {
         public DeleteRelatedPersonCommandValidator()
         {

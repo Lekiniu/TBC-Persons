@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Person.API
+namespace Persons.Application.Infrastructure.Behaviours
 {
     /// <summary>
     /// Action Filter - validates through fluent validation

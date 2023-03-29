@@ -7,7 +7,7 @@ using System;
 
 namespace Persons.Application.Persons.Commands.AddRelatedPerson
 {
-    public class DeleteRelatedPersonHandler : IRequestHandler<AddRelatedPersonCommand, int>
+    public class DeleteRelatedPersonHandler : IRequestHandler<DeleteRelatedPersonCommand, int>
     {
         private readonly IUnitOfWork _unitOfWork;
         public DeleteRelatedPersonHandler(
@@ -16,10 +16,13 @@ namespace Persons.Application.Persons.Commands.AddRelatedPerson
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<int> Handle(AddRelatedPersonCommand request, CancellationToken cancellationToken)
+        public async Task<int> Handle(DeleteRelatedPersonCommand request, CancellationToken cancellationToken)
         {
             var person = await _unitOfWork.PersonRepository.GetByIdAsync(request.PersonId);
             if(person is null) throw new Exception(CommonResource.PersonNotFoundError);
+
+            var relatedPerson = await _unitOfWork.PersonRepository.GetByIdAsync(request.RelatedPersonId);
+            if (relatedPerson is null) throw new Exception(CommonResource.PersonNotFoundError);
 
             //var relation =   person.RelativePersons.FirstOrDefault(x => x.MainPersonId == request.PersonId && x.RelatedPersonId == request.RelatedPersonId);
             //if (relation is null) throw new Exception(CommonResource.PersonNotFoundError);

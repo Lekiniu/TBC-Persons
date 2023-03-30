@@ -7,7 +7,7 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Person.API.Middleware;
 using Persons.Application;
-using Persons.Application.Infrastructure.Behaviours;
+using Persons.Application.Common.Behaviours.Filters;
 using Persons.Infrastructure;
 using Serilog;
 using System.Reflection;

@@ -18,9 +18,10 @@ namespace Persons.Application.Features.City.Queries.GetCities
         }
         public async Task<PagedList<CityModel>> Handle(GetCityQuery request, CancellationToken cancellationToken)
         {
-            var cities = _unitOfWork.CityRepository.GetAllBySpec(new CitySpecification(request).ToExpression());
+            var citiesSpec = new CitySpecification(request.Name).ToExpression();
 
-            var pagedList = await PagedList<Domain.AggregateModels.CityAggregate.City>.Create(_unitOfWork.CityRepository, cities, request.PageNumber, request.PageSize, _mapper, cancellationToken);
+            var data = await _unitOfWork.CityRepository.GetbySpecifications(citiesSpec);
+            var pagedList = await PagedList<Domain.AggregateModels.CityAggregate.City>.Create(_unitOfWork.CityRepository, data, request.PageNumber, request.PageSize, _mapper, cancellationToken);
 
             return _mapper.Map<PagedList<CityModel>>(pagedList);
         }

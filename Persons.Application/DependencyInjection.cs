@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Persons.Application.Common.Behaviours;
+using Persons.Application.Common.Behaviours.Validators;
 using System.Reflection;
 
 namespace Persons.Application

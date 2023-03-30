@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
 using Persons.Application.Common.PagedList;
-using Persons.Application.Helpers.Filtering.Persons;
 using Persons.Application.Interfaces;
 
 namespace Persons.Application.Features.Persons.Queries.GetPersons
@@ -20,7 +19,7 @@ namespace Persons.Application.Features.Persons.Queries.GetPersons
         public async Task<PagedList<PersonModel>> Handle(GetPersonsQuery request, CancellationToken cancellationToken)
         {
             var personsSpec = new PersonSpecifications(request.Name, request.Surname, request.PersonalNumber, request.ExtendedSeachQuery).ToExpression();
-            var data = await _unitOfWork.PersonRepository.GetPersonsbySpec(personsSpec);
+            var data = await _unitOfWork.PersonRepository.GetbySpecifications(personsSpec);
             var result = await PagedList<PersonModel>.Create(_unitOfWork.PersonRepository, data, request.PageNumber, request.PageSize, _mapper, cancellationToken);
             return result ?? new PagedList<PersonModel>();
         }

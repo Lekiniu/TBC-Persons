@@ -35,10 +35,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Common\Filters\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Persons.Domain\Persons.Domain.csproj" />
   </ItemGroup>
 

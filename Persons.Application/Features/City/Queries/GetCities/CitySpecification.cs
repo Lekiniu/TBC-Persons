@@ -1,29 +1,33 @@
 ﻿using Persons.Application.Common.Specifications;
 using System.Linq.Expressions;
+using Cities = Persons.Domain.AggregateModels.CityAggregate.City;
 
 namespace Persons.Application.Features.City.Queries.GetCities
 {
-    public class CitySpecification : Specification<Domain.AggregateModels.CityAggregate.City>
+    public class CitySpecification 
     {
-        private Expression<Func<Domain.AggregateModels.CityAggregate.City, bool>> BaseExpression { get; set; } = u => u.IsActive;
+        private Expression<Func<Cities, bool>> BaseExpression { get; set; } = u => u.IsActive;
 
-        private readonly GetCityQuery _filter;
-
-        public CitySpecification(GetCityQuery filter)
+        public CitySpecification(string? name)
         {
-            _filter = filter;
+            Name = name;
         }
 
-        public override Expression<Func<Domain.AggregateModels.CityAggregate.City, bool>> ToExpression()
-        {
-            var result = BaseExpression;
+        public string? Name { get; set; }
 
-            if (!string.IsNullOrWhiteSpace(_filter.Name))
+        public List<Expression<Func<Cities, bool>>> ToExpression()
+        {
+            List<Expression<Func<Cities, bool>>> expressions = new List<Expression<Func<Cities, bool>>>
+                {
+                    BaseExpression
+                };
+
+            if (!string.IsNullOrWhiteSpace(Name))
             {
-                result = result.And(x => x.Name.Contains(_filter.Name));
+                expressions.Add(x => x.Name.ToLower().Contains(Name.ToLower()));
             }
 
-            return result;
+            return expressions;
         }
     }
 }

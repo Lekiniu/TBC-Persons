@@ -40,6 +40,8 @@ namespace Persons.Application.Interfaces
         void Update(TEntity entity);
         Task<int> UpdateAsync(TEntity entity, CancellationToken cancellationToken = default);
         Task<List<TEntity>> ToListAsync(IQueryable<TEntity> data, CancellationToken cancellationToken = default);
+
+        Task<IQueryable<TEntity>> GetbySpecifications(List<Expression<Func<TEntity, bool>>> expressions);
     }
     }
 

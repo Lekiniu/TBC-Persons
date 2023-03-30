@@ -18,7 +18,7 @@ namespace Persons.Application.Features.Persons.Commands.DeleteRelatedPerson
 
         public async Task<Unit> Handle(DeleteRelatedPersonCommand request, CancellationToken cancellationToken)
         {
-            var person = await _unitOfWork.PersonRepository.GetByIdAsync(request.PersonId);
+            var person = await _unitOfWork.PersonRepository.GetPersonDetails(request.PersonId);
             if (person is null || !person.IsActive) throw new Exception(CommonResource.NotFoundError);
 
             var relatedPerson = await _unitOfWork.PersonRepository.GetByIdAsync(request.RelatedPersonId);

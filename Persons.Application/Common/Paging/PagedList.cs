@@ -40,6 +40,5 @@ namespace Persons.Application.Common.PagedList
             var items = mapper.Map<List<T>>(await repository.ToListAsync(data, cancellationToken));
             return new PagedList<T>(items, count, pageNumber.Value, pageSize.Value);
         }
-
     }
 }

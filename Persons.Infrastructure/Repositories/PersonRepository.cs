@@ -1,10 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Persons.Application.Helpers.Filtering.Persons;
 using Persons.Domain.AggregateModels.PersonAggregate;
 using Persons.Domain.AggregateModels.PersonAggregate.Interfaces;
 using Persons.Infrastructure.Persistance.Context;
-using System.Linq;
-using System.Linq.Expressions;
 
 namespace Persons.Infrastructure.Repositories
 {
@@ -24,22 +21,5 @@ namespace Persons.Infrastructure.Repositories
                 .FirstOrDefaultAsync(a => a.Id == id);
             return result;
         }
-
-
-        public async Task<IQueryable<Person>> GetPersonsbySpec(List<Expression<Func<Person, bool>>> expressions)
-        {
-
-            var result = _context.Set<Person>().AsNoTracking().AsQueryable();
-            if (expressions.Count > 0)
-            {
-                foreach (var exp in expressions)
-                {
-
-                    result = result.Where(exp);
-                }
-            }
-            return result;
-        }
-
     }
 }

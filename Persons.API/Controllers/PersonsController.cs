@@ -6,8 +6,10 @@ using Persons.Application.Features.Persons.Commands.AddRelatedPerson;
 using Persons.Application.Features.Persons.Commands.CreatePerson;
 using Persons.Application.Features.Persons.Commands.DeletePerson;
 using Persons.Application.Features.Persons.Commands.DeleteRelatedPerson;
+using Persons.Application.Features.Persons.Commands.UpdateFile;
 using Persons.Application.Features.Persons.Commands.UpdatePerson;
 using Persons.Application.Features.Persons.Queries.GetPersonDetails;
+using Persons.Application.Features.Persons.Queries.GetPersonReport;
 using Persons.Application.Features.Persons.Queries.GetPersons;
 using System.Numerics;
 using TBC.Application.Features.Person.Commands.AddPersonContact;
@@ -34,7 +36,7 @@ namespace Persons.API.Controllers
         /// </summary>
         [HttpGet(template: nameof(GetPersons), Name = nameof(GetPersons))]
         [ProducesResponseType(typeof(List<PersonModel>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetPersons([FromRoute] GetPersonsModel  request)
+        public async Task<IActionResult> GetPersons([FromQuery] GetPersonsModel request)
         {
             var query =  _mapper.Map<GetPersonsQuery>(request);
             var result = await _mediator.Send(query);
@@ -52,7 +54,16 @@ namespace Persons.API.Controllers
             var result = await _mediator.Send(query);
             return Ok(result);
         }
-
+        /// <summary>
+        /// Get person details
+        /// </summary>
+        [HttpGet(template: nameof(GetPersonsReport), Name = nameof(GetPersonsReport))]
+        [ProducesResponseType(typeof(PersonReportModel), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetPersonsReport()
+        {
+            var result = await _mediator.Send(new GetPersonReportQuery());
+            return Ok(result);
+        }
 
         /// <summary>
         /// Creates Person
@@ -74,11 +85,29 @@ namespace Persons.API.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [HttpPost(template: nameof(AddFile), Name = nameof(AddFile))]
+        [HttpPost("AddFile/{id}", Name = nameof(AddFile))]
         [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
-        public async Task<IActionResult> AddFile([FromBody] AddFilePersonModel model)
+        public async Task<IActionResult> AddFile([FromRoute] int id, [FromForm] AddFilePersonModel model)
         {
             var command = _mapper.Map<AddFileCommand>(model);
+            command.PersonId = id;
+            var result = await _mediator.Send(command);
+            return Created(string.Empty, result);
+        }
+
+
+
+        /// <summary>
+        ///Add File
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost("UpdateFile/{id}", Name = nameof(UpdateFile))]
+        [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
+        public async Task<IActionResult> UpdateFile([FromRoute] int id, [FromForm] UpdateFilePersonModel model)
+        {
+            var command = _mapper.Map<UpdateFileCommand>(model);
+            command.PersonId = id;
             var result = await _mediator.Send(command);
             return Created(string.Empty, result);
         }

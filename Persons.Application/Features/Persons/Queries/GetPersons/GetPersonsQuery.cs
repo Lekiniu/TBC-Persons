@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using MediatR;
+using Persons.Application.Common.Mappings;
 using Persons.Application.Common.PagedList;
+using TBC.Application.Features.Person.Commands.AddPersonContact;
 
 namespace Persons.Application.Features.Persons.Queries.GetPersons
 {
-    public class GetPersonsQuery :  IRequest<PagedList<PersonModel>>
+    public class GetPersonsQuery : MapFrom<GetPersonsModel>, IRequest<PagedList<PersonModel>>
     {
         public string? Name { get; set; }
         public string? Surname { get; set; }

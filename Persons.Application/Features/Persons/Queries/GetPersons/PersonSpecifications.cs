@@ -2,28 +2,31 @@
 using System.Drawing;
 using System.Linq.Expressions;
 
-namespace Persons.Application.Helpers.Filtering.Persons
+namespace Persons.Application.Features.Persons.Queries.GetPersons
 {
     public class PersonSpecifications
     {
-
-        public PersonSpecifications(string? name, string? surname, string? personalNumber, string? extendedQuery) 
+        private Expression<Func<Person, bool>> BaseExpression { get; set; } = u => u.IsActive;
+        public PersonSpecifications(string? name, string? surname, string? personalNumber, string? extendedQuery)
         {
-           Name= name;
-           Surname= surname;
-           PersonalNumber= personalNumber;
-           ExtendedQuery= extendedQuery;
-        } 
-        
+            Name = name;
+            Surname = surname;
+            PersonalNumber = personalNumber;
+            ExtendedQuery = extendedQuery;
+        }
+
         public string? Name { get; set; }
         public string? Surname { get; set; }
         public string? PersonalNumber { get; set; }
         public string? ExtendedQuery { get; set; }
 
 
-        public  List<Expression<Func<Person, bool>>> ToExpression()
+        public List<Expression<Func<Person, bool>>> ToExpression()
         {
-            List<Expression<Func<Person, bool>>> expressions = new List<Expression<Func<Person, bool>>>();
+            List<Expression<Func<Person, bool>>> expressions = new List<Expression<Func<Person, bool>>>
+            {
+                BaseExpression
+            };
 
             if (!string.IsNullOrWhiteSpace(Name))
             {

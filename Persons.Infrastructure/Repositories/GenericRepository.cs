@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Persons.Application.Interfaces;
+using Persons.Domain.AggregateModels.PersonAggregate;
 using Persons.Infrastructure.Persistance.Context;
 using System.Linq.Expressions;
 
@@ -14,35 +15,6 @@ namespace Persons.Infrastructure.Repositories
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        //protected GenericRepository(K context)
-        //{
-        //    _dbContext = context;
-        //}
-
-        //public async Task<T> GetById(int id)
-        //{
-        //    return await _dbContext.Set<T>().FindAsync(id);
-        //}
-
-        //public async Task<IEnumerable<T>> GetAll()
-        //{
-        //    return await _dbContext.Set<T>().ToListAsync();
-        //}
-
-        //public async Task Add(T entity)
-        //{
-        //    await _dbContext.Set<T>().AddAsync(entity);
-        //}
-
-        //public void Delete(T entity)
-        //{
-        //    _dbContext.Set<T>().Remove(entity);
-        //}
-
-        //public void Update(T entity)
-        //{
-        //    _dbContext.Set<T>().Update(entity);
-        //}
 
         public virtual IQueryable<TEntity> GetAll(bool asNoTracking = true)
         {
@@ -119,7 +91,6 @@ namespace Persons.Infrastructure.Repositories
             return queryable;
         }
 
-
         public virtual TEntity Add(TEntity entity)
         {
             return _context.Set<TEntity>().Add(entity).Entity;
@@ -187,6 +158,22 @@ namespace Persons.Infrastructure.Repositories
         public virtual async Task<List<TEntity>> ToListAsync(IQueryable<TEntity> data, CancellationToken cancellationToken = default)
         {
             return await data.AsNoTracking().ToListAsync(cancellationToken);
+        }
+
+
+        public async Task<IQueryable<TEntity>> GetbySpecifications (List<Expression<Func<TEntity, bool>>> expressions)
+        {
+
+            var result = _context.Set<TEntity>().AsNoTracking().AsQueryable();
+            if (expressions.Count > 0)
+            {
+                foreach (var exp in expressions)
+                {
+
+                    result = result.Where(exp);
+                }
+            }
+            return result;
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using MediatR;
 using Persons.Application.Interfaces;
+using Persons.Domain.AggregateModels.PersonAggregate;
+using System.Linq.Expressions;
 
 namespace Persons.Application.Features.Persons.Queries.GetPersonReport
 {
@@ -14,7 +16,7 @@ namespace Persons.Application.Features.Persons.Queries.GetPersonReport
 
         public async Task<IEnumerable<PersonReportModel>> Handle(GetPersonReportQuery request, CancellationToken cancellationToken)
         {
-            var persons = await _unitOfWork.PersonRepository.GetAllAsync(cancellationToken);
+            var persons =  _unitOfWork.PersonRepository.GetAllIncluding(new Expression<Func<Person, object>>[] { x => x.RelativePersons });
 
               var result = persons.Select(x => 
                   new PersonReportModel { Id = x.Id, Name = x.Name, Surname = x.Surname, Relates = x.RelativePersons

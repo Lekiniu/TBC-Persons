@@ -21,14 +21,14 @@ namespace Persons.Infrastructure.Services
             GuidString = GuidString.Replace("+", "");
             GuidString = GuidString.Replace("/", "");
 
-            var fileNameLength = file.FileName.Length > 10 ? file.FileName.Substring(file.FileName.Length - 10) : file.FileName;
-            string fileName = personId + GuidString + fileNameLength;
+            //var fileNameLength = file.FileName.Length > 10 ? file.FileName.Substring(file.FileName.Length - 10) : file.FileName;
+            string fileName = personId + GuidString + Path.GetExtension(file.FileName);
             if (!Directory.Exists(Path.Combine(_appEnvironment.ContentRootPath, Folder)))
             {
                 Directory.CreateDirectory(Path.Combine(_appEnvironment.ContentRootPath,
                     Folder));
             }
-            var filePath = Path.Combine(_appEnvironment.ContentRootPath, Folder, Path.GetExtension(fileName));
+            var filePath = Path.Combine(_appEnvironment.ContentRootPath, Folder, fileName);
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
                 await file.CopyToAsync(stream);

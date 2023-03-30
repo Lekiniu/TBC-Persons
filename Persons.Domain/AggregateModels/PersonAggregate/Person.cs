@@ -1,8 +1,10 @@
-﻿using Persons.Domain.Enums;
+﻿using Persons.Application.Common.Base;
+using Persons.Domain.AggregateModels.CityAggregate;
+using Persons.Domain.Enums;
 
 namespace Persons.Domain.AggregateModels.PersonAggregate
 {
-    public class Person
+    public class Person : BaseEntity<int>
     {
         private readonly List<PhoneNumber> _phoneNumbers;
         private readonly List<PersonsRelation> _mainPersons;
@@ -23,16 +25,14 @@ namespace Persons.Domain.AggregateModels.PersonAggregate
             BirthDate = birthDate;
             CityId = cityId;
         }
-
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Surname { get; set; }
-        public GenderTypes Gender { get; set; }
-        public string PersonalNumber { get; set; }
-        public DateTime BirthDate { get; set; }
+        public string Name { get; private set; }
+        public string Surname { get; private set; }
+        public GenderTypes Gender { get; private  set; }
+        public string PersonalNumber { get; private set; }
+        public DateTime BirthDate { get; private set; }
         public string? FileUrl { get; set; }
         public int CityId { get; set; }
-        public virtual City City { get; set; }
+        public virtual City City { get;  set; }
         public virtual IReadOnlyCollection<PhoneNumber> PhoneNumbers => _phoneNumbers;
         public virtual IReadOnlyCollection<PersonsRelation> MainPersons => _mainPersons;
         public virtual IReadOnlyCollection<PersonsRelation> RelativePersons => _relativePersons;
@@ -68,8 +68,25 @@ namespace Persons.Domain.AggregateModels.PersonAggregate
         public Person DeleteRelatedPerson(int personId, int relatedPersonId)
         {
            var relation =  _relativePersons.FirstOrDefault(x=>x.MainPersonId == personId && x.RelatedPersonId == relatedPersonId);
-            if (relation !=null) _relativePersons.Remove(relation);
+            if (relation is null) throw new Exception(); 
+            relation.Delete();
             return this;
+        }
+
+
+        public void AddPhoneNumber(PhoneNumber phoneNumber)
+        {
+            if (!_phoneNumbers.Any(x => x.Number == phoneNumber.Number && x.IsActive))
+                _phoneNumbers.Add(phoneNumber);
+        }
+
+        public void UpdatePhoneNumber(int phoneNumberId, string number, PhoneNumberTypes phoneNumberType)
+        {
+            var phoneNumber = PhoneNumbers.FirstOrDefault(x => x.Id == phoneNumberId);
+
+            if (phoneNumber == null) throw new Exception();
+
+            phoneNumber.Update(number, phoneNumberType);
         }
     }
 }

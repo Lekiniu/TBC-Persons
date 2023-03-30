@@ -22,13 +22,18 @@ namespace Persons.Infrastructure.Persistance.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Persons.Domain.AggregateModels.PersonAggregate.City", b =>
+            modelBuilder.Entity("Persons.Domain.AggregateModels.CityAggregate.City", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -54,11 +59,15 @@ namespace Persons.Infrastructure.Persistance.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("FileUrl")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Gender")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -90,6 +99,11 @@ namespace Persons.Infrastructure.Persistance.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
                     b.Property<int>("MainPersonId")
                         .HasColumnType("int");
 
@@ -116,12 +130,20 @@ namespace Persons.Infrastructure.Persistance.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
                     b.Property<string>("Number")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("PersonId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PhoneNumberType")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -133,10 +155,10 @@ namespace Persons.Infrastructure.Persistance.Migrations
 
             modelBuilder.Entity("Persons.Domain.AggregateModels.PersonAggregate.Person", b =>
                 {
-                    b.HasOne("Persons.Domain.AggregateModels.PersonAggregate.City", "City")
+                    b.HasOne("Persons.Domain.AggregateModels.CityAggregate.City", "City")
                         .WithMany("Persons")
                         .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("City");
@@ -145,15 +167,15 @@ namespace Persons.Infrastructure.Persistance.Migrations
             modelBuilder.Entity("Persons.Domain.AggregateModels.PersonAggregate.PersonsRelation", b =>
                 {
                     b.HasOne("Persons.Domain.AggregateModels.PersonAggregate.Person", "MainPerson")
-                        .WithMany("MainPersons")
+                        .WithMany("RelativePersons")
                         .HasForeignKey("MainPersonId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Persons.Domain.AggregateModels.PersonAggregate.Person", "RelatedPerson")
-                        .WithMany("RelativePersons")
+                        .WithMany("MainPersons")
                         .HasForeignKey("RelatedPersonId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("MainPerson");
@@ -166,13 +188,13 @@ namespace Persons.Infrastructure.Persistance.Migrations
                     b.HasOne("Persons.Domain.AggregateModels.PersonAggregate.Person", "Person")
                         .WithMany("PhoneNumbers")
                         .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Person");
                 });
 
-            modelBuilder.Entity("Persons.Domain.AggregateModels.PersonAggregate.City", b =>
+            modelBuilder.Entity("Persons.Domain.AggregateModels.CityAggregate.City", b =>
                 {
                     b.Navigation("Persons");
                 });

@@ -61,11 +61,20 @@ namespace Persons.Application.Common.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error creating Person.
+        ///   Looks up a localized string similar to Already Exist.
         /// </summary>
-        public static string CreatePersonError {
+        public static string AlreadyExist {
             get {
-                return ResourceManager.GetString("CreatePersonError", resourceCulture);
+                return ResourceManager.GetString("AlreadyExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error creating.
+        /// </summary>
+        public static string CreateError {
+            get {
+                return ResourceManager.GetString("CreateError", resourceCulture);
             }
         }
         
@@ -88,20 +97,20 @@ namespace Persons.Application.Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Not Found.
+        /// </summary>
+        public static string NotFoundError {
+            get {
+                return ResourceManager.GetString("NotFoundError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Person under 18.
         /// </summary>
         public static string PersonDateError {
             get {
                 return ResourceManager.GetString("PersonDateError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Person Not Found.
-        /// </summary>
-        public static string PersonNotFoundError {
-            get {
-                return ResourceManager.GetString("PersonNotFoundError", resourceCulture);
             }
         }
     }

@@ -11,6 +11,9 @@ namespace Persons.Infrastructure.Persistance.Configurations
             builder.ToTable("PhoneNumbers");
             builder.Property(x => x.Id).UseIdentityColumn();
             builder.Property(x => x.Number).IsRequired().HasMaxLength(50);
+            builder.Property(x => x.IsActive)
+                .IsRequired()
+                .HasDefaultValue(true);
         }
     }
 }

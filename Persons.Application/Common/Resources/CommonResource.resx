@@ -117,8 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CreatePersonError" xml:space="preserve">
-    <value>Error creating Person</value>
+  <data name="AlreadyExist" xml:space="preserve">
+    <value>Already Exist</value>
+  </data>
+  <data name="CreateError" xml:space="preserve">
+    <value>Error creating</value>
   </data>
   <data name="LanguageError" xml:space="preserve">
     <value>Invalid Language Input</value>
@@ -126,10 +129,10 @@
   <data name="MiddlewareError" xml:space="preserve">
     <value>Internal Server Error from the custom middleware</value>
   </data>
+  <data name="NotFoundError" xml:space="preserve">
+    <value>Not Found</value>
+  </data>
   <data name="PersonDateError" xml:space="preserve">
     <value>Person under 18</value>
-  </data>
-  <data name="PersonNotFoundError" xml:space="preserve">
-    <value>Person Not Found</value>
   </data>
 </root>

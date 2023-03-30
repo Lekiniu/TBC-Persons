@@ -1,12 +1,16 @@
 using AutoMapper;
-using Azure.Core;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Persons.Application.Persons.Commands.AddRelatedPerson;
-using Persons.Application.Persons.Commands.CreatePerson;
-using Persons.Application.Persons.Commands.UpdatePerson;
-using Persons.Application.Persons.Queries.GetPersonDetails;
-using Persons.Application.Persons.Queries.GetPersons;
+using Persons.Application.Features.Persons.Commands.AddFile;
+using Persons.Application.Features.Persons.Commands.AddRelatedPerson;
+using Persons.Application.Features.Persons.Commands.CreatePerson;
+using Persons.Application.Features.Persons.Commands.DeletePerson;
+using Persons.Application.Features.Persons.Commands.DeleteRelatedPerson;
+using Persons.Application.Features.Persons.Commands.UpdatePerson;
+using Persons.Application.Features.Persons.Queries.GetPersonDetails;
+using Persons.Application.Features.Persons.Queries.GetPersons;
+using System.Numerics;
+using TBC.Application.Features.Person.Commands.AddPersonContact;
 
 namespace Persons.API.Controllers
 {
@@ -26,9 +30,10 @@ namespace Persons.API.Controllers
 
         /// <summary>
         /// Get person List
+        ///  /// <param name="request"></param>
         /// </summary>
-        [HttpGet(Name = nameof(GetPersons))]
-        [ProducesResponseType(typeof(PersonDetailsModel), StatusCodes.Status200OK)]
+        [HttpGet(template: nameof(GetPersons), Name = nameof(GetPersons))]
+        [ProducesResponseType(typeof(List<PersonModel>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetPersons([FromRoute] GetPersonsModel  request)
         {
             var query =  _mapper.Map<GetPersonsQuery>(request);
@@ -83,14 +88,15 @@ namespace Persons.API.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [HttpPut(template: nameof(UpdatePerson), Name = nameof(UpdatePerson))]
-        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
-        public async Task<IActionResult> UpdatePerson([FromBody] UpdatePersonModel request)
+        [HttpPut("{id}",  Name = nameof(UpdatePerson))]
+        [ProducesResponseType(typeof(int), StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> UpdatePerson([FromRoute] int id, [FromBody] UpdatePersonModel request)
         {
+            
             var command = _mapper.Map<UpdatePersonCommand>(request);
-            var result = await _mediator.Send(command);
-
-            return Ok(result);
+            command.Id = id;
+            await _mediator.Send(command);
+            return NoContent();
         }
 
         /// <summary>
@@ -122,7 +128,7 @@ namespace Persons.API.Controllers
         }
 
         /// <summary>
-        /// Delete RelatedPerson
+        /// Delete Related Person
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
@@ -135,5 +141,18 @@ namespace Persons.API.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        ///Add Phone Number
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost(template: nameof(AddPhoneNumber), Name = nameof(AddPhoneNumber))]
+        [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
+        public async Task<IActionResult> AddPhoneNumber([FromBody] AddPhoneNumberModel model)
+        {
+            var command = _mapper.Map<AddPhoneNumberCommand>(model);
+            var result = await _mediator.Send(command);
+            return Created(string.Empty, result);
+        }
     }
 }

@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
 using Persons.Application.Interfaces;
-using Persons.Domain.AggregateModels.PersonAggregate;
-using Persons.Domain.AggregateModels.PersonAggregate.Interfaces;
 
 namespace Persons.Application.Common.PagedList
 {

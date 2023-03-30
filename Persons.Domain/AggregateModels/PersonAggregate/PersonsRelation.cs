@@ -1,8 +1,9 @@
-﻿using Persons.Domain.Enums;
+﻿using Persons.Application.Common.Base;
+using Persons.Domain.Enums;
 
 namespace Persons.Domain.AggregateModels.PersonAggregate
 {
-    public class PersonsRelation
+    public class PersonsRelation : BaseEntity<int>
     {
         public PersonsRelation(int mainPersonId, int relatedPersonId, RelationTypes relationType)
         {
@@ -11,7 +12,6 @@ namespace Persons.Domain.AggregateModels.PersonAggregate
             RelationType = relationType;
         }
 
-        public int Id { get; set; }
         public int MainPersonId { get; set; }
         public int RelatedPersonId { get; set; }
         public virtual Person MainPerson { get; set; }

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Persons.Application.Infrastructure.Services;
 using Persons.Application.Interfaces;
+using Persons.Domain.AggregateModels.CityAggregate.Interfaces;
 using Persons.Domain.AggregateModels.PersonAggregate.Interfaces;
 using Persons.Infrastructure.Persistance.Context;
 using Persons.Infrastructure.Persistance.UnitOfWork;

@@ -1,5 +1,5 @@
-﻿using Persons.Domain.AggregateModels.PersonAggregate;
-using Persons.Domain.AggregateModels.PersonAggregate.Interfaces;
+﻿using Persons.Domain.AggregateModels.CityAggregate;
+using Persons.Domain.AggregateModels.CityAggregate.Interfaces;
 using Persons.Infrastructure.Persistance.Context;
 
 namespace Persons.Infrastructure.Repositories

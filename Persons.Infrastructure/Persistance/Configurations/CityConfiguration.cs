@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Persons.Domain.AggregateModels.PersonAggregate;
+using Persons.Domain.AggregateModels.CityAggregate;
 
 namespace Persons.Infrastructure.Persistance.Configurations
 {
@@ -11,6 +11,9 @@ namespace Persons.Infrastructure.Persistance.Configurations
             builder.ToTable("Cities");
             builder.Property(x => x.Id).UseIdentityColumn();
             builder.Property(x => x.Name).IsRequired();
+            builder.Property(x => x.IsActive)
+                .IsRequired()
+                .HasDefaultValue(true);
         }
     }
 }
